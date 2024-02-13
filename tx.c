@@ -4,6 +4,38 @@
 #include <unistd.h>
 #include <termios.h>
 
+// global variables
+char mxG[4] = {0x45, 0x27, 0x16, 0x0B};
+
+// function definitions
+char encode(char b) {
+    // hamming code encoding
+    char tmp;
+    char state = 0x00;
+    for (int i=0; i<4; i++) {
+        if (((b>>(3-i)) & 0x01) == 0) {         // masking columns of generator matrix
+            continue;
+        }
+        tmp = mxG[i];
+        if (state != 0x00){
+            tmp ^= state;
+        }
+        state = tmp;
+    }
+    // add some logic for null b word
+    printf("The resulting codeword: %x\n", tmp);
+
+    return tmp;
+}
+
+char sdch(char c, int index) {
+    // corruption of encoded data via AWGN channel
+    // index implies the bit of encoded data to toggle
+    c ^= (1 << index);
+    return c;
+}
+
+
 int main() {
     int fd;
     struct termios serial_port_settings;
@@ -26,10 +58,19 @@ int main() {
     serial_port_settings.c_cflag |= CS8;       // 8 bits per byte
     tcsetattr(fd, TCSANOW, &serial_port_settings);
 
-    // Send a byte of data (for example, 'A')
-    char data_byte = 0b00110110;                // ascii num 6
-    write(fd, &data_byte, 1);
-    write(fd, &data_byte, 1);
+    // Send a byte of data
+    char data_byte = 0b00110101;                // ascii num X
+    char c = 0x00;
+
+    // encode and send low nibble
+    c = encode(data_byte & 0x0F);
+    c = sdch(c, 1);
+    write(fd, &c, 1);
+
+    // encode and send high nibble
+    c = encode((data_byte & 0xF0)>>4);
+    c = sdch(c, 5);
+    write(fd, &c, 1);
 
 
     // Close the serial port

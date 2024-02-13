@@ -22,6 +22,31 @@ Project flowchart
 ---
 
 ## 1. Theoretical background
+The main principle of coding is to gain the ability to detect and, under some conditions, even correct errors. This is achieved through redundancy. There are two ways to ensure redundancy. Alphabet expansion ($M_c$) and dimension expansion ($N_c$).
+To achieve redundancy, the following must hold:
+
+$M_c^{N_c L} > M_b^{N_b L}$
+
+That is, the set of all possible sequences in code embedding space must be larger than the number of all possible messages (datawords).
+
+### 1.1 Linear (Systematic) Block Codes
+For linear codes, the input-output relation between dataword ($\mathbf{d}$) and codeword ($\mathbf{c}$) is linear on-to-one mapping.
+
+Block codes segment the input data into fixed-length block and then encodes these blocks independently, i.e. without memory.
+
+Systematic block codes are block codes, where the dataword is a part of the codeword. The remaining part of codeword is called parity. Parity ensures redundancy and is exploited to detect and correct errors.
+
+A generator matrix for systematic block code:
+
+$$ \mathbf{G} = \begin{bmatrix}
+\mathbf{I_{N_b}} \\
+\mathbf{P}
+\end{bmatrix}$$
+
+The codeword is then obtained like this:
+$$\mathbf{c} = \mathbf{G}\mathbf{b}$$
+Note that the first block of generator matrix is an identity matrix. The first $N_b$ positions of a codeword is the coded dataword.
+
 - hamming space block code overview
 - matrices specification
 - encode and decode equations
