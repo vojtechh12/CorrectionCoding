@@ -82,15 +82,17 @@ char message = '7'; //i.e. 0b00110111 in ASCII
 
 This is, as mentioned, segmented into lower nibble and higher nibble. In the following, only lower nibble (`0x7`) encoding and decoding es shown. The 4-bit lower nibbl is multiplied with the generator matrix to yield the codeword.
 
-$$ \begin{bmatrix} 1&0&0&0 \\ 0&1&0&0 \\ 0&0&1&0 \\ 0&0&0&1 \\ 1&1&1&0 \\ 0&1&1&1 \\ 1&1&0&1
+$$ \begin{bmatrix}
+1&0&0&0 \\ 0&1&0&0 \\ 0&0&1&0 \\ 0&0&0&1 \\ 1&1&1&0 \\ 0&1&1&1 \\ 1&1&0&1
 \end{bmatrix}
 \begin{bmatrix}
 0\\1\\1\\1
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix} = 
+\begin{bmatrix}
 0\\1\\1\\1\\0\\1\\0
 \end{bmatrix}$$
 
-- examine error correction using syndrome (with example)
+
 ## 2. Physical layer implementation
 - tx and rx connected via UART
 - UART sends 8 bits of data
