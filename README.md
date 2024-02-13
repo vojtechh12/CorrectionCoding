@@ -30,7 +30,7 @@ $M_c^{N_c L} > M_b^{N_b L}$
 That is, the set of all possible sequences in code embedding space must be larger than the number of all possible messages (datawords).
 
 ### 1.1 Linear (Systematic) Block Codes
-For linear codes, the input-output relation between dataword ($\mathbf{d}$) and codeword ($\mathbf{c}$) is linear on-to-one mapping.
+For linear codes, the input-output relation between dataword ($\mathbf{d}$) and codeword ($\mathbf{c}$) is linear one-to-one mapping.
 
 Block codes segment the input data into fixed-length block and then encodes these blocks independently, i.e. without memory.
 
