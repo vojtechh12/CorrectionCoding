@@ -51,10 +51,12 @@ Note that the first block of generator matrix is an identity matrix. The first $
 
 ### 1.2 Error Correction in Systematic Block Codes
 Error correction exploits parity check matrix $\mathbf{H}$.
+
 $$\mathbf{H} = \begin{bmatrix}
 -\mathbf{P} \\
 \mathbf{I_\mathrm{N_c - N_b}}
 \end{bmatrix}$$
+
 Parity check matrix columns form the basis of codeword null-space, orthogonal to codeword sub-space.
 
 $$\mathbf{H^\mathrm{T}} \mathbf{G} = \mathbf{O}$$
