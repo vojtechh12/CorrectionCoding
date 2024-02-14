@@ -106,15 +106,19 @@ This is, as mentioned, segmented into lower nibble and higher nibble. In the fol
 ```
 Now let's consider an AWGN channel that toggle bit n4 (indexing from LSB with zero). Then the received bit will be:
 
-$$\mathbf{x} = \begin{bmatrix}
+```math
+\mathbf{x} = \begin{bmatrix}
 0\\1\\0\\1\\0\\1\\0
-\end{bmatrix}$$
+\end{bmatrix}
+```
 
 This yields syndrome:
 
+```math
 $$\mathbf{s} = \begin{bmatrix}
 1\\1\\0
-\end{bmatrix}$$
+\end{bmatrix}
+```
 
 Upon checking with the parity check matrix $\mathbf{H^\mathrm{T}}$, this syndrome correcponds to its column n4, indicating an error on bit n4. This allows for correction of such error. Limitation of this code are weight one errors. If more than one bit was corrupted, the calculated syndrome would not have the ability to distinguish various other error patterns.
 
