@@ -136,11 +136,6 @@ data_byte = getchar();
         data_byte +=1; // enable tx of zero character
 ```
 
-- tx and rx connected via UART
-- UART sends 8 bits of data
-- segmentation and concatenation
-- implementation of matrix multiplication over F body
-
 ## 3. Future Work
 - implement ARQ mechanism
 - study linear albebra terminology to better grasp documentation
