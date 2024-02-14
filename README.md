@@ -21,7 +21,7 @@ Project flowchart
 
 ---
 
-## 1. Theoretical background
+## 1. Theoretical Background
 The main principle of coding is to gain the ability to detect and, under some conditions, even correct errors. This is achieved through redundancy. There are two ways to ensure redundancy. Alphabet expansion ($M_c$) and dimension expansion ($N_c$).
 To achieve redundancy, the following must hold:
 
@@ -122,7 +122,7 @@ This yields syndrome:
 
 Upon checking with the parity check matrix $\mathbf{H^\mathrm{T}}$, this syndrome correcponds to its column n4, indicating an error on bit n4. This allows for correction of such error. Limitation of this code are weight one errors. If more than one bit was corrupted, the calculated syndrome would not have the ability to distinguish various other error patterns.
 
-## 2. Physical layer implementation
+## 2. Implementation
 This section intends to highlight a few key techniques used to implement the aforementioned theory.
 
 ### 2.1 Vector-Matrix Multiplication over Binary Data
@@ -141,7 +141,7 @@ data_byte = getchar();
 - segmentation and concatenation
 - implementation of matrix multiplication over F body
 
-## 3. Future work
+## 3. Future Work
 - implement ARQ mechanism
 - study linear albebra terminology to better grasp documentation
 
