@@ -49,6 +49,13 @@ Note that the first block of generator matrix is an identity matrix. The first $
 
 **Hamming codes** are a subset of systematic block codes with the ability to correct all weight one errors. This project exploits Hamming (7,4) code, which takes 4-bit input dataword and encodes it with additional 3-bit parity to form a 7-bit dataword. These 7 bits are sent via UART from TX to RX.
 
+The generator matrix of used Hamming code(7,4) looks like this:
+
+```math
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \\ 1 & 1 & 1 & 0 \\ 0 & 1 & 1 & 1 \\ 1 & 1 & 0 & 1 \end{bmatrix}
+```
+
 ### 1.2 Error Correction in Systematic Block Codes
 Error correction exploits parity check matrix $\mathbf{H}$.
 
@@ -72,6 +79,13 @@ $$\mathbf{s} = \mathbf{H^\mathrm{T}} \mathbf{x}$$
 
 If the syndrome is zero, we know that a valid codeword was received. One characteristic sign of Hamming code is that it has distinct syndromes for all weight one errors, enabling correction of such errors.
 
+The parity check matrix for selected Hamming code(7,4) looks like this:
+
+```math
+\begin{bmatrix}
+1 & 1 & 1 & 0 & 1 & 0 & 0\\ 0 & 1 & 1 & 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 & 0 & 0 & 1  \end{bmatrix}
+```
+
 ### 1.3 Example Error Correction
 This section examines an example of what is implemented in the code. Input data (1 Byte) is segmented into two nibbles. Each one is encoded with Hamming(7,4) code.
 
@@ -88,7 +102,19 @@ This is, as mentioned, segmented into lower nibble and higher nibble. In the fol
 0 \\ 1 \\ 1 \\ 1 \\ 0 \\ 1 \\0
 \end{bmatrix}
 ```
+Now let's consider an AWGN channel that toggle bit n4 (indexing from LSB with zero). Then the received bit will be:
 
+$$\mathbf{x} = \begin{bmatrix}
+0\\1\\0\\1\\0\\1\\0
+\end{bmatrix}$$
+
+This yields syndrome:
+
+$$\mathbf{s} = \begin{bmatrix}
+1\\1\\0
+\end{bmatrix}$$
+
+Upon checking with the parity check matrix $\mathbf{H^\mathrm{T}}$, this syndrome correcponds to its column n4, indicating an error on bit n4. This allows for correction of such error. Limitation of this code are weight one errors. If more than one bit was corrupted, the calculated syndrome would not have the ability to distinguish various other error patterns.
 
 ## 2. Physical layer implementation
 - tx and rx connected via UART
