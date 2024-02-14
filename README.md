@@ -52,6 +52,7 @@ Note that the first block of generator matrix is an identity matrix. The first $
 The generator matrix of used Hamming code(7,4) looks like this:
 
 ```math
+\mathbf{G} = 
 \begin{bmatrix}
 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \\ 1 & 1 & 1 & 0 \\ 0 & 1 & 1 & 1 \\ 1 & 1 & 0 & 1 \end{bmatrix}
 ```
@@ -82,6 +83,7 @@ If the syndrome is zero, we know that a valid codeword was received. One charact
 The parity check matrix for selected Hamming code(7,4) looks like this:
 
 ```math
+\mathbf{H^\mathrm{T}} = 
 \begin{bmatrix}
 1 & 1 & 1 & 0 & 1 & 0 & 0\\ 0 & 1 & 1 & 1 & 0 & 1 & 0 \\ 1 & 1 & 0 & 1 & 0 & 0 & 1  \end{bmatrix}
 ```
