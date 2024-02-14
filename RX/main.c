@@ -39,19 +39,6 @@ int8_t iDot = 4;								// selects which segment lights up the dot
 int8_t i = 0;									// select disp segment
 
 
-// specifikace PINu ve strukture
-struct Pin {
-	char abcd;
-	uint32_t num;
-};
-
-// jake piny pouzivam
-struct Pin PA2, PA3; // PA5 is for debuging
-
-void Initialize_Pins() {
-	PA2.abcd = 'A', PA2.num = 2;			// USART2_TX
-	PA3.abcd = 'A', PA3.num = 3;			// USART2_RX
-}
 
 // segments order: hgfedcba
 const char NumbersASCII[14] = {
@@ -106,8 +93,7 @@ void TIM2_IRQHandler(void)
 		iSeg++;
 	}
 
-
-	// vetveni co zobrazuju
+	// display
 	dispDigit(segSelect, iSeg, iDot, NumbersASCII[dispChar[iSeg] - '0']);
 
 }
@@ -152,9 +138,6 @@ int main(void)
   SystemCoreClockUpdate();
 
 
-  /* Initialize all configured peripherals */
-  //Initialize_Pins();
-
   GPIO_Initialize(GPIOA, 8, 0x1, 0);	// SHCP pin, output, clkEn
   GPIO_Initialize(GPIOA, 9, 0x1, 0);	// DS pin, output, clkEK
   GPIO_Initialize(GPIOB, 5, 0x1, 1);	// STCP (latch) pin, output, clkEn
@@ -169,7 +152,7 @@ int main(void)
 	  char s = 0x00;							// syndrome for error corr
 
 	  lowNibble = read_char();					// receive low nibble
-	  // lowNibble >>= 3;						    // shift to discard 3 parity bits (result is 4 bits of data)
+	  // lowNibble >>= 3;						// shift to discard 3 parity bits (result is 4 bits of data)
 	  s = syndrome(lowNibble);
 
 	    // error correction
@@ -200,7 +183,6 @@ int main(void)
 	    	lowNibble ^= 0x40;
 	        break;
 	    default:
-	        // throw flag for retransmission (send NACK)
 	        break;
 	    }
 	  lowNibble >>= 3;						    // shift to discard 3 parity bits (result is 4 bits of data)
@@ -244,6 +226,7 @@ int main(void)
 
 	  // concatenate both nibbles to complete a byte of sent data
 	  lowNibble |= highNibble;
+	  lowNibble -= 1;								// adjust for the zero tx
 
 	  tmpDispChar[i] = lowNibble;
 

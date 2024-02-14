@@ -22,8 +22,7 @@ char encode(char b) {
         }
         state = tmp;
     }
-    // add some logic for null b word
-    printf("The resulting codeword: %x\n", tmp);
+    // printf("The resulting codeword: %x\n", tmp);
 
     return tmp;
 }
@@ -58,23 +57,34 @@ int main() {
     serial_port_settings.c_cflag |= CS8;       // 8 bits per byte
     tcsetattr(fd, TCSANOW, &serial_port_settings);
 
-    // Send a byte of data
+    // initialize
     char data_byte = 0b00110101;                // ascii num X
     char c = 0x00;
 
-    // encode and send low nibble
-    c = encode(data_byte & 0x0F);
-    c = sdch(c, 1);
-    write(fd, &c, 1);
+    // stay in cycle
+    while(1){
+        // wait for user input
+        printf("Enter number 0 .. 9 to send (enter c to quit): ");
+        // scanf(" %c", &data_byte);
+        // getchar();
+        data_byte = getchar();
+        data_byte +=1;                  // to enable transmission of zero character
+        getchar();                      // eat the white space
+        if ((data_byte -1) == 'c') break;
 
-    // encode and send high nibble
-    c = encode((data_byte & 0xF0)>>4);
-    c = sdch(c, 5);
-    write(fd, &c, 1);
+        // encode and send low nibble
+        c = encode(data_byte & 0x0F);
+        c = sdch(c, 1);
+        write(fd, &c, 1);
 
+        // encode and send high nibble
+        c = encode((data_byte & 0xF0)>>4);
+        c = sdch(c, 5);
+        write(fd, &c, 1);
 
+    }
     // Close the serial port
     close(fd);
-
+    
     return 0;
 }
