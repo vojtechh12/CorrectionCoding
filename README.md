@@ -115,7 +115,7 @@ Now let's consider an AWGN channel that toggle bit n4 (indexing from LSB with ze
 This yields syndrome:
 
 ```math
-$$\mathbf{s} = \begin{bmatrix}
+\mathbf{s} = \begin{bmatrix}
 1\\1\\0
 \end{bmatrix}
 ```
