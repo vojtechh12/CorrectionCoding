@@ -123,11 +123,28 @@ This yields syndrome:
 Upon checking with the parity check matrix $\mathbf{H^\mathrm{T}}$, this syndrome correcponds to its column n4, indicating an error on bit n4. This allows for correction of such error. Limitation of this code are weight one errors. If more than one bit was corrupted, the calculated syndrome would not have the ability to distinguish various other error patterns.
 
 ## 2. Physical layer implementation
+This section intends to highlight a few key techniques used to implement the aforementioned theory.
+
+### 2.1 Vector-Matrix Multiplication over Binary Data
+Vector-Matrix multiplication is basically masking columns of matrix based on vector values (1 or 0) and then summing those columns to create a resulting vector. Summing over binary data is modulo 2 operation and is effectively implemented by XOR.
+
+### 2.2 Sending Zero Char
+Lower nibble of zero is `0x0`. This cannot form a valid codeword. Therefore, all bytes received from user are incremented by 1. Zero is then sent as 1 and so on. On receiving end, upon effectively decoding and concatenating sent byte, it is decremented by 1. This allows to encode and send zero.
+
+```C
+data_byte = getchar();
+        data_byte +=1; // enable tx of zero character
+```
+
 - tx and rx connected via UART
 - UART sends 8 bits of data
 - segmentation and concatenation
 - implementation of matrix multiplication over F body
 
 ## 3. Future work
-- study linear albebra terminology to better grasp docu
 - implement ARQ mechanism
+- study linear albebra terminology to better grasp documentation
+
+
+## 4. Video Demo
+[youtube demo](https://youtube.com/shorts/7p8gvKg8kL0?feature=share)
