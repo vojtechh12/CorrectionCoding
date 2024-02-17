@@ -104,7 +104,7 @@ This is, as mentioned, segmented into lower nibble and higher nibble. In the fol
 0 \\ 1 \\ 1 \\ 1 \\ 0 \\ 1 \\0
 \end{bmatrix}
 ```
-Now let's consider an AWGN channel that toggle bit n4 (indexing from LSB with zero). Then the received bit will be:
+Now let's consider an AWGN channel that toggles bit n4 (indexing from LSB with zero). Then the received bit will be:
 
 ```math
 \mathbf{x} = \begin{bmatrix}
@@ -120,7 +120,7 @@ This yields syndrome:
 \end{bmatrix}
 ```
 
-Upon checking with the parity check matrix $\mathbf{H^\mathrm{T}}$, this syndrome correcponds to its column n4, indicating an error on bit n4. This allows for correction of such error. Limitation of this code are weight one errors. If more than one bit was corrupted, the calculated syndrome would not have the ability to distinguish various other error patterns.
+Upon checking with the parity check matrix $\mathbf{H^\mathrm{T}}$, this syndrome corresponds to its column n4, indicating an error on bit n4. This allows for correction of such error. Limitation of this code are weight one errors. If more than one bit was corrupted, the calculated syndrome would not have the ability to distinguish various other error patterns.
 
 ## 2. Implementation
 This section intends to highlight a few key techniques used to implement the aforementioned theory.
@@ -129,7 +129,7 @@ This section intends to highlight a few key techniques used to implement the afo
 Vector-Matrix multiplication is basically masking columns of matrix based on vector values (1 or 0) and then summing those columns to create a resulting vector. Summing over binary data is modulo 2 operation and is effectively implemented by XOR.
 
 ### 2.2 Sending Zero Char
-Lower nibble of zero is `0x0`. This cannot form a valid codeword. Therefore, all bytes received from user are incremented by 1. Zero is then sent as 1 and so on. On receiving end, upon effectively decoding and concatenating sent byte, it is decremented by 1. This allows to encode and send zero.
+Lower nibble of zero is `0x0`. This cannot form a valid codeword. Therefore, all input messages from user are incremented by 1. Zero is then sent as 1 and so on. On the receiving end, upon effectively decoding and concatenating the sent byte, it is decremented by 1. This allows to encode and send zero.
 
 ```C
 data_byte = getchar();
